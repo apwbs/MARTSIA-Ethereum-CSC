@@ -1,9 +1,5 @@
-import json
-from datetime import datetime
-import random
 import block_int
 from decouple import config
-import io
 import sqlite3
 
 attribute_certifier_address = config('ATTRIBUTE_CERTIFIER_ADDRESS')
