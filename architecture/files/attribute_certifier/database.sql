@@ -11,3 +11,10 @@ CREATE TABLE authorities (
     authority_status_vote BOOL,
     primary key (process_instance, authority_address)
 );
+
+CREATE TABLE users (
+    process_instance TEXT,
+    user_address TEXT,
+    user_status_vote BOOL,
+    primary key (process_instance, user_address)
+);

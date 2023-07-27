@@ -11,12 +11,11 @@ private_key2 = config('ATTRIBUTE_CERTIFIER_PRIVATEKEY2')
 attribute_certifier_address3 = config('ATTRIBUTE_CERTIFIER_ADDRESS3')
 private_key3 = config('ATTRIBUTE_CERTIFIER_PRIVATEKEY3')
 
-authority1_address = config('AUTHORITY1_ADDRESS')
-authority2_address = config('AUTHORITY2_ADDRESS')
-authority3_address = config('AUTHORITY3_ADDRESS')
-authority4_address = config('AUTHORITY4_ADDRESS')
+manufacturer_address = config('DATAOWNER_MANUFACTURER_ADDRESS')
+electronics_address = config('READER_ADDRESS_SUPPLIER1')
+mechanics_address = config('READER_ADDRESS_SUPPLIER2')
 
-authority_address = authority2_address
+user_address = manufacturer_address
 
 process_instance_id_env = config('PROCESS_INSTANCE_ID')
 process_instance_id = int(process_instance_id_env)
@@ -26,20 +25,20 @@ process_instance_id = int(process_instance_id_env)
 # x = conn.cursor()
 
 # Connection to SQLite3 attribute_certifier2 database
-# conn = sqlite3.connect('files/attribute_certifier2/attribute_certifier2.db')
-# x = conn.cursor()
-
-# Connection to SQLite3 attribute_certifier3 database
-conn = sqlite3.connect('files/attribute_certifier3/attribute_certifier3.db')
+conn = sqlite3.connect('files/attribute_certifier2/attribute_certifier2.db')
 x = conn.cursor()
 
+# Connection to SQLite3 attribute_certifier3 database
+# conn = sqlite3.connect('files/attribute_certifier3/attribute_certifier3.db')
+# x = conn.cursor()
 
-def add_authority():
-    block_int.add_authority(attribute_certifier_address3, private_key3, authority_address)
 
-    x.execute("INSERT OR IGNORE INTO authorities VALUES (?,?,?)", (str(process_instance_id), authority_address, True))
+def add_user():
+    block_int.add_user(attribute_certifier_address2, private_key2, user_address)
+
+    x.execute("INSERT OR IGNORE INTO users VALUES (?,?,?)", (str(process_instance_id), user_address, True))
     conn.commit()
 
 
 if __name__ == "__main__":
-    add_authority()
+    add_user()

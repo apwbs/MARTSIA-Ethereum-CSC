@@ -53,6 +53,26 @@ def add_authority(attribute_certifier_address, private_key, authority_address):
     print(tx_receipt)
 
 
+def add_user(attribute_certifier_address, private_key, user_address):
+    with open(compiled_contract_path) as file:
+        contract_json = json.load(file)
+        contract_abi = contract_json['abi']
+
+    contract = web3.eth.contract(address=deployed_contract_address, abi=contract_abi)
+
+    tx = {
+        'nonce': get_nonce(attribute_certifier_address),
+        'gasPrice': web3.eth.gas_price,
+        'from': attribute_certifier_address
+    }
+    message = contract.functions.addUser(user_address).buildTransaction(tx)
+    signed_transaction = web3.eth.account.sign_transaction(message, private_key)
+    transaction_hash = web3.eth.send_raw_transaction(signed_transaction.rawTransaction)
+    print(f'tx_hash: {web3.toHex(transaction_hash)}')
+    tx_receipt = web3.eth.wait_for_transaction_receipt(transaction_hash, timeout=600)
+    print(tx_receipt)
+
+
 def send_authority_names(authority_address, private_key, process_instance_id, hash_file):
     with open(compiled_contract_path) as file:
         contract_json = json.load(file)
